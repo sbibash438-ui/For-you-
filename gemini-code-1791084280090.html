@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Special Bouquet For You 💐</title>
+  <style>
+    :root {
+      --bg-dark: #0f0c1b;
+      --glow-gold: #ffd700;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-dark);
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    /* Screen 1: Link/Landing Card */
+    #landing-screen {
+      text-align: center;
+      padding: 2.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(255, 105, 180, 0.2);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+      z-index: 10;
+    }
+
+    #landing-screen h1 {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(45deg, #ff758c, #ff7eb3, #ffd700);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    #landing-screen p {
+      color: #dcd6f7;
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+    }
+
+    .open-btn {
+      display: inline-block;
+      padding: 1rem 2.5rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #fff;
+      background: linear-gradient(45deg, #ff416c, #ff4b2b);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(255, 65, 108, 0.6);
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .open-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 35px rgba(255, 65, 108, 0.9), 0 0 15px rgba(255, 215, 0, 0.8);
+    }
+
+    /* Screen 2: Bouquet Canvas */
+    #bouquet-screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1.2s ease;
+    }
+
+    #bouquet-screen.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+      max-width: 800px;
+      max-height: 800px;
+    }
+
+    /* Flower Reveal Animations */
+    .flower-item {
+      opacity: 0;
+      transform-origin: bottom center;
+      transform: scale(0) translateY(50px);
+      transition: opacity 0.8s ease, transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.27);
+    }
+
+    .flower-item.visible {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    /* Glowing Filter Effects */
+    .glow-rose {
+      filter: drop-shadow(0px 0px 12px rgba(255, 20, 147, 0.85));
+    }
+
+    .glow-tulip {
+      filter: drop-shadow(0px 0px 12px rgba(255, 215, 0, 0.85));
+    }
+
+    .glow-wrapper {
+      filter: drop-shadow(0px 10px 20px rgba(212, 175, 55, 0.4));
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Screen 1: Surprise Link / Invitation -->
+  <div id="landing-screen">
+    <h1>You Have Received a Special Delivery 🌹</h1>
+    <p>Click below to unwrap your glowing flower bouquet.</p>
+    <button class="open-btn" onclick="revealBouquet()">Open Bouquet ✨</button>
+  </div>
+
+  <!-- Screen 2: Animated SVG Bouquet -->
+  <div id="bouquet-screen">
+    <svg viewBox="0 0 600 700">
+      <defs>
+        <!-- Gradients for Flowers -->
+        <linearGradient id="rose-red" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#ff1744" />
+          <stop offset="100%" stop-color="#880e4f" />
+        </linearGradient>
+
+        <linearGradient id="rose-pink" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#ff80ab" />
+          <stop offset="100%" stop-color="#c2185b" />
+        </linearGradient>
+
+        <linearGradient id="tulip-yellow" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#ffee58" />
+          <stop offset="100%" stop-color="#f57f17" />
+        </linearGradient>
+
+        <linearGradient id="tulip-purple" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#e040fb" />
+          <stop offset="100%" stop-color="#4a148c" />
+        </linearGradient>
+
+        <linearGradient id="tulip-orange" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#ff9e80" />
+          <stop offset="100%" stop-color="#dd2c00" />
+        </linearGradient>
+
+        <linearGradient id="wrapper-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#fefefe" />
+          <stop offset="100%" stop-color="#e0c3fc" />
+        </linearGradient>
+
+        <linearGradient id="stem-green" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#76ff03" />
+          <stop offset="100%" stop-color="#1b5e20" />
+        </linearGradient>
+      </defs>
+
+      <!-- Bouquet Wrapper Base -->
+      <g class="flower-item glow-wrapper" id="item-0">
+        <path d="M 230,420 L 300,650 L 370,420 Z" fill="url(#wrapper-gold)" opacity="0.9" />
+        <path d="M 200,380 Q 300,430 400,380 L 350,650 L 250,650 Z" fill="#8e24aa" opacity="0.4" />
+        <!-- Ribbon -->
+        <path d="M 270,550 Q 300,565 330,550 Q 300,535 270,550" fill="#ff1744" />
+        <circle cx="300" cy="550" r="10" fill="#ff5252" />
+      </g>
+
+      <!-- Flower 1: Red Rose (Center) -->
+      <g class="flower-item glow-rose" id="item-1">
+        <path d="M 300,550 Q 295,380 300,260" stroke="url(#stem-green)" stroke-width="8" fill="none" />
+        <!-- Leaf -->
+        <path d="M 300,380 Q 330,360 340,380 Q 320,400 300,380" fill="#4caf50" />
+        <!-- Rose Bloom -->
+        <g transform="translate(300, 240)">
+          <circle cx="0" cy="0" r="35" fill="url(#rose-red)" />
+          <path d="M -20,-10 C -10,-30 10,-30 20,-10 C 30,10 -30,30 -20,-10 Z" fill="#d50000" />
+          <path d="M -10,-5 C -5,-18 5,-18 10,-5 C 15,5 -15,15 -10,-5 Z" fill="#ff5252" />
+        </g>
+      </g>
+
+      <!-- Flower 2: Yellow Tulip (Left) -->
+      <g class="flower-item glow-tulip" id="item-2">
+        <path d="M 290,550 Q 250,400 210,290" stroke="url(#stem-green)" stroke-width="7" fill="none" />
+        <!-- Tulip Bloom -->
+        <g transform="translate(210, 270)">
+          <path d="M -25,20 C -35,-20 -15,-40 0,-45 C 15,-40 35,-20 25,20 Z" fill="url(#tulip-yellow)" />
+          <path d="M -25,20 Q 0,-10 0,25 Q -15,5 -25,20" fill="#ffd600" />
+          <path d="M 25,20 Q 0,-10 0,25 Q 15,5 25,20" fill="#ffab00" />
+        </g>
+      </g>
+
+      <!-- Flower 3: Purple Tulip (Right) -->
+      <g class="flower-item glow-tulip" id="item-3">
+        <path d="M 310,550 Q 350,400 390,290" stroke="url(#stem-green)" stroke-width="7" fill="none" />
+        <!-- Tulip Bloom -->
+        <g transform="translate(390, 270)">
+          <path d="M -25,20 C -35,-20 -15,-40 0,-45 C 15,-40 35,-20 25,20 Z" fill="url(#tulip-purple)" />
+          <path d="M -25,20 Q 0,-10 0,25 Q -15,5 -25,20" fill="#aa00ff" />
+          <path d="M 25,20 Q 0,-10 0,25 Q 15,5 25,20" fill="#6200ea" />
+        </g>
+      </g>
+
+      <!-- Flower 4: Pink Rose (Top Left) -->
+      <g class="flower-item glow-rose" id="item-4">
+        <path d="M 295,550 Q 230,370 240,200" stroke="url(#stem-green)" stroke-width="6" fill="none" />
+        <!-- Pink Rose Bloom -->
+        <g transform="translate(240, 180)">
+          <circle cx="0" cy="0" r="30" fill="url(#rose-pink)" />
+          <path d="M -15,-8 C -8,-22 8,-22 15,-8 C 22,8 -22,22 -15,-8 Z" fill="#c2185b" />
+          <path d="M -8,-3 C -4,-12 4,-12 8,-3 C 12,3 -12,12 -8,-3 Z" fill="#ff4081" />
+        </g>
+      </g>
+
+      <!-- Flower 5: Orange Tulip (Top Right) -->
+      <g class="flower-item glow-tulip" id="item-5">
+        <path d="M 305,550 Q 370,370 360,200" stroke="url(#stem-green)" stroke-width="6" fill="none" />
+        <!-- Tulip Bloom -->
+        <g transform="translate(360, 180)">
+          <path d="M -22,18 C -30,-18 -12,-35 0,-40 C 12,-35 30,-18 22,18 Z" fill="url(#tulip-orange)" />
+          <path d="M -22,18 Q 0,-8 0,20 Q -12,4 -22,18" fill="#ff3d00" />
+          <path d="M 22,18 Q 0,-8 0,20 Q 12,4 22,18" fill="#dd2c00" />
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <script>
+    function revealBouquet() {
+      // Hide Landing Screen
+      const landing = document.getElementById('landing-screen');
+      const bouquet = document.getElementById('bouquet-screen');
+
+      landing.style.opacity = '0';
+      landing.style.transform = 'scale(0.8)';
+
+      setTimeout(() => {
+        landing.style.display = 'none';
+        bouquet.classList.add('active');
+
+        // Sequentially reveal bouquet wrapper and flowers one by one
+        const totalItems = 6;
+        for (let i = 0; i < totalItems; i++) {
+          setTimeout(() => {
+            const el = document.getElementById(`item-${i}`);
+            if (el) el.classList.add('visible');
+          }, i * 450); // 450ms gap between each flower appearance
+        }
+      }, 600);
+    }
+  </script>
+</body>
+</html>
